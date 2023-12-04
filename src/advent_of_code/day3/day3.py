@@ -50,105 +50,86 @@ def get_valid_placements(schematic: list[list[str]], placements: dict) -> list[i
 
             if row == 0 and first_col == 0:
                 for i in range(row, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col, last_col + 2):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
             elif row == 0 and last_col == len(schematic[row]) - 1:
                 for i in range(row, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col - 1, last_col + 1):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
             elif row == 0 and first_col != 0 and last_col != len(schematic[row]) - 1:
                 for i in range(row, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col - 1, last_col + 2):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
 
             elif row == len(schematic) - 1 and first_col == 0:
                 for i in range(row - 1, row + 1):
-                    if spec_char_found: break
                     for j in range(first_col, last_col + 2):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
             elif row == len(schematic) - 1 and last_col == len(schematic[row]) - 1:
                 for i in range(row, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col - 1, last_col + 1):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
             elif row == len(schematic) - 1 and first_col != 0and last_col != len(schematic[row]) - 1:
                 for i in range(row - 1, row + 1):
-                    if spec_char_found: break
                     for j in range(first_col - 1, last_col + 2):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
 
             elif row != 0 and first_col == 0:
                 for i in range(row - 1, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col, last_col + 2):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
             elif row != 0 and last_col == len(schematic[row]) - 1:
                 for i in range(row - 1, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col - 1, last_col + 1):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
+
             elif row != 0 and first_col != 0 and last_col != len(schematic[row]) - 1:
                 for i in range(row - 1, row + 2):
-                    if spec_char_found: break
                     for j in range(first_col - 1, last_col + 2):
                         element = schematic[i][j]
                         if element == '.' or element.isnumeric():
                             pass
                         else:
                             valid_placements.append(int(number))
-                            spec_char_found = True
-                            break
 
     return valid_placements
 
