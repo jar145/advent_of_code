@@ -1,6 +1,6 @@
 import math
 from os.path import dirname
-from advent_of_code.day3.DictList import Dictlist
+from advent_of_code.utils.DictList import Dictlist
 
 def load_file_as_matrix() -> list[list[str]]:
     input_file = f'{dirname(__file__)}/engine_schematic.txt'
@@ -10,7 +10,7 @@ def load_file_as_matrix() -> list[list[str]]:
 
     return project_data
 
-def get_number_placements(schematic: list[list[str]]) -> dict:
+def get_number_placements(schematic: list[list[str]]) -> Dictlist:
     # { number: (row, [col_indexes])}
     placement_dictionary = Dictlist()
     temp_num_str = ''
@@ -118,7 +118,7 @@ def get_valid_placements(schematic: list[list[str]], placements: dict) -> list[i
 
     return valid_placements
 
-def get_gear_coordinates(schematic: list[list[str]], placements: dict) -> dict:
+def get_gear_coordinates(schematic: list[list[str]], placements: dict) -> Dictlist:
     # { gear_coordinates (as tuple(x, y)): [adjacent numbers with gear]}
     gear_coordinates = Dictlist()
     for number in placements:
