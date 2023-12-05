@@ -51,7 +51,7 @@ if __name__ == '__main__':
     doc = helpers.read_input(input_file)
     valid_games = check_games(doc)
     fewest_games = fewest_in_games(doc)
-    sum_part1 = helpers.add_ints(valid_games)
-    sum_part2 = helpers.add_ints(fewest_games)
+    sum_part1 = sum(valid_games)
+    sum_part2 = sum(fewest_games)
 
     print()

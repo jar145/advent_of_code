@@ -43,6 +43,6 @@ if __name__ == '__main__':
     input = helpers.read_input(input_file)
     ints = compile_ints(input)
     formatted_ints = format_ints(ints)
-    sum = helpers.add_ints(formatted_ints)
+    sum = sum(formatted_ints)
 
     print()
