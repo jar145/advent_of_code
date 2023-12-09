@@ -20,6 +20,7 @@ requests = "2.31.0"
 urllib3 = "1.26.16"
 xmltodict = "0.13.0"
 word2number = "^1.1"
+numba = "^0.58.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"

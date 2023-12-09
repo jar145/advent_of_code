@@ -2,7 +2,6 @@ import re
 
 from os.path import dirname
 from advent_of_code.utils import helpers
-from advent_of_code.utils.DictList import Dictlist
 
 def get_number_of_matches(game_list: list[str]) -> dict:
     num_of_matches: dict = {}
@@ -26,7 +25,7 @@ def calculate_game_points(num_of_matches: list[int]) -> list[int]:
 
     return points_per_game
 
-def get_game_copies(game_matches: list[int]) -> Dictlist:
+def get_game_copies(game_matches: list[int]) -> dict:
     copy_list = { key: 1 for key in range(1, len(game_matches) + 1) }
     game_index = 0
     for game in game_matches:
