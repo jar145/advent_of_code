@@ -5,17 +5,18 @@ from advent_of_code.utils.DictList import Dictlist
 
 def build_map(almanac: list[str]) -> dict:
     parsed_almanac = parse_almanac(almanac)
-    print('map parsed')
     range_map = get_range_map(parsed_almanac)
     return range_map
 
 def get_range_map(initial_mappings: dict) -> dict:
     range_map = Dictlist()
-    sorted_range_map = Dictlist()
+
     for map in initial_mappings:
-        print(map)
         if 'seeds' in map:
-            range_map.update({ 'seeds': initial_mappings['seeds'] })
+            seed_range_iter = iter(range(len(initial_mappings[map])))
+            for i in seed_range_iter:
+                range_map[map] = range(initial_mappings[map][i], initial_mappings[map][i] + initial_mappings[map][i + 1])
+                helpers.consume(seed_range_iter, 1)
             continue
 
         for listing in initial_mappings[map]:
@@ -30,14 +31,11 @@ def get_range_map(initial_mappings: dict) -> dict:
                 range_map[map] = source_range
                 range_map[map] = destination_range
 
-    print('sorting map...')
-    sorted_range_map = parallel_sort(range_map)
-    print('map sorted')
-
-    return sorted_range_map
+    return parallel_sort(range_map)
 
 def parallel_sort(range_map: Dictlist) -> Dictlist:
     sorted_range_map = Dictlist()
+
     for map in range_map:
         if map == 'seeds':
             sorted_range_map.update({ 'seeds': range_map['seeds'] })
@@ -49,17 +47,19 @@ def parallel_sort(range_map: Dictlist) -> Dictlist:
         sorted_source_map = sorted(range_map[map][0], key=lambda r: r.start)
         sorted_range_map[map] = sorted_source_map
         sorted_range_map[map] = sorted_destination_map
+
     return sorted_range_map
 
 
 def consolidate_map(range_map: Dictlist) -> list[list[int]]:
     range_list: list[list[int]] = []
+
     for map in range_map:
         if map == 'seeds':
             continue
         for listing in range_map[map]:
             range_list.append(listing)
-    print('map consolidated')
+
     return range_list
 
 
@@ -67,37 +67,53 @@ def get_map_traversals(range_map: Dictlist) -> list[int]:
     traversals: list[int] = []
     seed_values = range_map['seeds']
     range_list = consolidate_map(range_map)
-    location: int
 
     for seed in seed_values:
-        print()
-        print(f'-> seed: {seed}')
-        initial_index = 0
-        which_area: int
-        location: int = seed
+        k = seed.start
+        while k < seed.stop:
+            seed = range(k, seed.stop)
+            start_location: int = k
+            stop_location: int = seed.stop
+            print()
+            print(f'-> seed: {seed}')
+            which_area: int
+            range_iter = iter(range(len(range_list)))
+            for j in range_iter:
+                if j % 2 == 0:
+                    for area in range_list[j]:
+                        if start_location in area and stop_location in area:
+                            start_location = start_location - area.start
+                            stop_location = stop_location - area.start
+                            print(f'      ({start_location}, {stop_location})')
+                            which_area = range_list[j].index(area)
+                            break
 
-        range_iter = iter(range(initial_index, len(range_list)))
-        for i in range_iter:
-            if i % 2 == 0:
-                for area in range_list[i]:
-                    if location in area:
-                        location = location - area.start
-                        print(f'      {location}')
-                        which_area = range_list[i].index(area)
-                        break
+                        if start_location in area and not stop_location in area:
+                            start_location = start_location - area.start
+                            range_difference =  abs(area.stop - stop_location)
+                            stop_location = stop_location - area.start - range_difference
+                            print(f'      ({start_location}, {stop_location})')
+                            which_area = range_list[j].index(area)
+                            break
 
-                    if area == range_list[i][-1]:
-                        helpers.consume(range_iter, 1)
-                        print(f'dest: {location}')
-                        break
-                continue
+                        if area == range_list[j][-1]:
+                            helpers.consume(range_iter, 1)
+                            print(f'dest: ({start_location}, {stop_location})')
+                            break
+                    continue
 
-            else:
-                area = range_list[i][which_area]
-                location = area.start + location
-                print(f'dest: {location}')
+                else:
+                    area = range_list[j][which_area]
+                    start_location = area.start + start_location
+                    stop_location = area.start + stop_location
+                    print(f'dest: ({start_location}, {stop_location})')
 
-        traversals.append(location)
+            if stop_location - start_location == 0:
+                break
+
+            k = k + (stop_location - start_location)
+            traversals.append(range(start_location, stop_location))
+
     return traversals
 
 
@@ -155,10 +171,7 @@ if __name__ == '__main__':
     input_file = f'{dirname(__file__)}/almanac.txt'
 
     almanac = helpers.read_input(input_file)
-    print('almanac read successfully')
     map = build_map(almanac)
-    print('map built')
     traversals = get_map_traversals(map)
-    print('map traversed')
-    nearest_location = min(traversals)
+    nearest_location = min([point for r in traversals for point in (r.start, r.stop)])
     print(nearest_location)
