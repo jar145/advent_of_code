@@ -43,9 +43,8 @@ def parallel_sort(range_map: Dictlist) -> Dictlist:
 
         source_map = range_map[map][0]
         destination_map = range_map[map][1]
-        sorted_destination_map = [x for _,x in sorted(zip(source_map,destination_map), key=lambda r: r[0].start)]
-        sorted_source_map = sorted(range_map[map][0], key=lambda r: r.start)
-        sorted_range_map[map] = sorted_source_map
+        sorted_destination_map = [x for _,x in sorted(zip(source_map, destination_map), key=lambda r: r[0].start)]
+        sorted_range_map[map] = sorted(source_map, key=lambda r: r.start)
         sorted_range_map[map] = sorted_destination_map
 
     return sorted_range_map
@@ -70,15 +69,14 @@ def get_map_traversals(range_map: Dictlist) -> list[int]:
 
     for seed in seed_values:
         k = seed.start
-        while k < seed.stop:
-            seed = range(k, seed.stop)
+        while k < seed.stop: # should this be an interator like the for loop below?
             start_location: int = k
             stop_location: int = seed.stop
             print()
-            print(f'-> seed: {seed}')
-            which_area: int
-            range_iter = iter(range(len(range_list)))
-            for j in range_iter:
+            print(f'-> seed: {range(k, seed.stop)}')
+            range_iterator = iter(range(len(range_list)))
+
+            for j in range_iterator:
                 if j % 2 == 0:
                     for area in range_list[j]:
                         if start_location in area and stop_location in area:
@@ -97,7 +95,7 @@ def get_map_traversals(range_map: Dictlist) -> list[int]:
                             break
 
                         if area == range_list[j][-1]:
-                            helpers.consume(range_iter, 1)
+                            helpers.consume(range_iterator, 1)
                             print(f'dest: ({start_location}, {stop_location})')
                             break
                     continue
