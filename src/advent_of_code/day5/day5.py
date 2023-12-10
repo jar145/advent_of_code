@@ -41,8 +41,8 @@ def parallel_sort(range_map: Dictlist) -> Dictlist:
             sorted_range_map.update({ 'seeds': range_map['seeds'] })
             continue
 
-        source_map = range_map[map][0]
-        destination_map = range_map[map][1]
+        source_map, destination_map = range_map[map][0], range_map[map][1]
+
         sorted_destination_map = [x for _,x in sorted(zip(source_map, destination_map), key=lambda r: r[0].start)]
         sorted_range_map[map] = sorted(source_map, key=lambda r: r.start)
         sorted_range_map[map] = sorted_destination_map
@@ -70,10 +70,9 @@ def get_map_traversals(range_map: Dictlist) -> list[int]:
     for seed in seed_values:
         k = seed.start
         while k < seed.stop: # should this be an interator like the for loop below?
-            start_location: int = k
-            stop_location: int = seed.stop
-            print()
-            print(f'-> seed: {range(k, seed.stop)}')
+            start_location, stop_location = k, seed.stop
+
+            print(f'-> seed: {range(k, seed.stop)}', end='\n\n')
             range_iterator = iter(range(len(range_list)))
 
             for j in range_iterator:
