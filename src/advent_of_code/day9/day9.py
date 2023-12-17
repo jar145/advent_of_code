@@ -9,7 +9,7 @@ def parse_history(map: list[str]) -> dict:
     parsed_map = []
 
     for i in range(len(map)):
-        line = re.split('\W+', map[i])
+        line = re.split(' ', map[i])
         parsed_map.append([int(element) for element in line if element])
     return parsed_map
 
@@ -26,7 +26,7 @@ def find_all_differences(listing: list[int]) -> list[list[int]]:
     diff = find_differences(listing)
     diff_list.append(diff)
 
-    while len(diff) != 1:
+    while not all(i == 0 for i in diff):
         diff = find_differences(diff)
         diff_list.append(diff)
 
@@ -34,9 +34,9 @@ def find_all_differences(listing: list[int]) -> list[list[int]]:
     return diff_list
 
 def calculate_next_item(listings: list[list[int]]) -> int:
-    diff = listings[-1][-1]
+    diff = 0
 
-    for i in reversed(range(len(listings))):
+    for i in reversed(range(1, len(listings))):
         diff = diff + listings[i - 1][-1]
 
     return diff
@@ -58,4 +58,8 @@ if __name__ == '__main__':
     history = parse_history(helpers.read_input(input_file))
     projections = calculate_projections(history)
     projectsion_sum = sum(projections)
-    print(projectsion_sum)
+
+    reversed_history = [sublist[::-1] for sublist in history]
+    reversed_projections = calculate_projections(reversed_history)
+    reversed_projectsion_sum = sum(reversed_projections)
+    print(projectsion_sum, reversed_projectsion_sum)
