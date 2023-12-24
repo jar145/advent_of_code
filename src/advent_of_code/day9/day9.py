@@ -1,11 +1,9 @@
-import math
 import re
-from functools import reduce
 from os.path import dirname
 
 from advent_of_code.utils import helpers
 
-def parse_history(map: list[str]) -> dict:
+def parse_history(map: list[str]) -> list[list[int]]:
     parsed_map = []
 
     for i in range(len(map)):

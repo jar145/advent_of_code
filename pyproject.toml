@@ -8,10 +8,9 @@ authors = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.12"
 
 jproperties = "2.1.1"
-numpy = "1.25.2"
 pyopenssl = "23.2.0"
 pysocks = "1.7.1"
 python-dotenv = "1.0.0"
@@ -20,7 +19,7 @@ requests = "2.31.0"
 urllib3 = "1.26.16"
 xmltodict = "0.13.0"
 word2number = "^1.1"
-numba = "^0.58.1"
+recordclass = "^0.21.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.1.2"
